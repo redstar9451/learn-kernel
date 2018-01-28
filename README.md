@@ -1,2 +1,2 @@
-# rootfs-maker
-just create a rootfs file, which used in embedded system. maybe this project is just for myself. so, let's go.
+# Comment linux kernel code
+comment linux kernel code
