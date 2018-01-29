@@ -1,2 +1,2 @@
 # Comment linux kernel code
-comment linux kernel code
+learn linux kernel with qemu simulator
