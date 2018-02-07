@@ -3,9 +3,16 @@ learn linux kernel with qemu simulator
 
 ## how to use
 ```
-git clone https://github.com/redstar9451/learn-kernel.git
-cd learn-kernel
-git clone https://github.com/redstar9451/linux-kernel.git
+./download.sh
+make busybox
 make vexpress_kernel
+./qemu-kernel.sh
 ```
-wget http://busybox.net/downloads/busybox-1.28.0.tar.bz2
+## qemu options you can speicify:
+* -S hold in the first instruction
+
+## how to debug with gdb
+waiting for composing
+
+## about making rootfs
+* how many ways to identify a rootfs ?
