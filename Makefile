@@ -28,5 +28,5 @@ busybox:
 	make -C busybox-1.28.0/ oldconfig KBUILD_OUTPUT=$(KBUILD_OUTPUT_BUSYBOX)
 	make -C $(KBUILD_OUTPUT_BUSYBOX)
 	make -C $(KBUILD_OUTPUT_BUSYBOX) install
-	fakeroot ./make_cpio.sh $(KBUILD_OUTPUT_BUSYBOX) 
+	fakeroot ./make_cpio.sh $(KBUILD_OUTPUT_BUSYBOX) $(CURDIR)/busybox-1.28.0
 
