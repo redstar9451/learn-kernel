@@ -23,7 +23,10 @@ vexpress_kernel:
 .PHONY: busybox
 busybox:
 	-mkdir $(KBUILD_OUTPUT_BUSYBOX) -p
+	-rm -rf $(KBUILD_OUTPUT_BUSYBOX)/_install
 	cp ./config/busybox/busybox_defconf $(KBUILD_OUTPUT_BUSYBOX)/.config
 	make -C busybox-1.28.0/ oldconfig KBUILD_OUTPUT=$(KBUILD_OUTPUT_BUSYBOX)
 	make -C $(KBUILD_OUTPUT_BUSYBOX)
 	make -C $(KBUILD_OUTPUT_BUSYBOX) install
+	fakeroot ./make_cpio.sh $(KBUILD_OUTPUT_BUSYBOX) 
+
