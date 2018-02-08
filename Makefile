@@ -30,3 +30,7 @@ busybox:
 	make -C $(KBUILD_OUTPUT_BUSYBOX) install
 	fakeroot ./make-rootfs.sh $(KBUILD_OUTPUT_BUSYBOX) $(CURDIR)/busybox-1.28.0
 
+.PHONY: vexpress_ca9x4
+vexpress_ca9x4:busybox vexpress_kernel
+	./qemu-kernel.sh
+
