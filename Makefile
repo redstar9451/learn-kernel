@@ -3,7 +3,7 @@ export ARCH?=arm
 export KBUILD_VERBOSE=1
 
 KERNEL_DIR=linux-kernel
-KBUILD_OUTPUT_KERNEL=$(CURDIR)/build/kernel
+export KBUILD_OUTPUT_KERNEL=$(CURDIR)/build/kernel
 KBUILD_OUTPUT_UBOOT=$(CURDIR)/build/uboot
 KBUILD_OUTPUT_BUSYBOX=$(CURDIR)/build/busybox
 
@@ -34,3 +34,6 @@ busybox:
 vexpress_ca9x4:busybox vexpress_kernel
 	./qemu-kernel.sh
 
+.PHONY: samples
+samples:
+	make -C samples/slab
