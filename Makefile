@@ -34,7 +34,6 @@ busybox: samples
 
 .PHONY: vexpress_ca9x4
 vexpress_ca9x4:busybox vexpress_kernel
-	cp $(KBUILD_OUTPUT_KERNEL)/vmlinux /mnt/hgfs/learn-kernel/.
 	./qemu-kernel.sh
 
 .PHONY: samples
