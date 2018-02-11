@@ -2,7 +2,3 @@ linux-kernel/
 build/
 busybox-1.28.0*
 .gitignore
-*.ko
-*.mod.c
-*.mod.o
-.tmp_versions
