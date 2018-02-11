@@ -40,3 +40,9 @@ vexpress_ca9x4:busybox vexpress_kernel
 samples:
 	make -C samples/compile-module
 	make -C samples/slab
+	-mkdir $(KBUILD_OUTPUT_BUSYBOX) -p
+	-rm -rf $(KBUILD_OUTPUT_BUSYBOX)/_install
+	make -C $(KBUILD_OUTPUT_BUSYBOX) install
+	find $(CURDIR)/build/samples -name "*.ko" | xargs cp -v -t $(KBUILD_OUTPUT_BUSYBOX)/_install
+	fakeroot ./make-rootfs.sh $(KBUILD_OUTPUT_BUSYBOX) $(CURDIR)/busybox-1.28.0
+
