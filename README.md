@@ -42,3 +42,10 @@ sudo ifconfig br0 down
 sudo brctl delbr br0
 
 ```
+
+## Questions
+* 什么情况下会使用到skb链表？处理分片时？
+* skb-\>truesize 有啥用
+* _____alloc_skb 中，skbuff_head_cache skbuff_fclone_cache 的区别，为fast clone专门设计了一个memory ?
+* skb 是什么的缩写 ? socket buffer
+* what meaning does skb->data_len represent ?
