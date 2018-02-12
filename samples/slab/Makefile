@@ -1,7 +1,11 @@
 
-BUILD_OUTPUT_BASE ?= /Volumes/Samsung_T5/learn-kernel/build/samples
-BUILD_DIR ?= $(BUILD_OUTPUT_BASE)/$(shell basename $(CURDIR))
-BUILD_DIR_MAKEFILE ?= $(BUILD_DIR)/Makefile
+ifeq ($(build_base),)
+	$(error variable build_base is null)
+endif
+
+# can not subsitute build_base for build, I don't know why. WTF!!!!!!!!
+# 也许是因为进入内核目录后才展开的变量，而内核里已经定义了 build 变量，我不像再说 WTF 了. 2018/2/12
+output ?= $(build_base)/samples/$(shell basename $(CURDIR))
 
 # never use "module" as the obj-m value, or you will fail to insert module.ko,
 # with the message "insmod: can't insert 'module.ko': invalid parameter"
@@ -12,15 +16,15 @@ slab-y := samples-slab.o
 
 #ccflags-y := -I$(src)/include
 
-all: $(BUILD_DIR_MAKEFILE)
-	make -C $(KBUILD_OUTPUT_KERNEL) M=$(BUILD_DIR) src=$(CURDIR) modules
+all: $(output)/Makefile
+	make -C $(kernel_build) M=$(output) src=$(CURDIR) modules
 
-$(BUILD_DIR):
+$(output):
 	mkdir -p "$@"
 
-$(BUILD_DIR_MAKEFILE): $(BUILD_DIR)
+$(output)/Makefile: $(output)
 	touch "$@"
 
 clean:
-	make -C $(KBUILD_OUTPUT_KERNEL) M=$(BUILD_DIR) src=$(CURDIR) clean
+	make -C $(kernel_build) M=$(output) src=$(CURDIR) clean
 
