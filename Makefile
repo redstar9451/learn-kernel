@@ -2,29 +2,24 @@ export CROSS_COMPILE?=arm-linux-gnueabi-
 export ARCH?=arm
 export KBUILD_VERBOSE=0
 
-KERNEL_DIR = linux-kernel
-export build_base = $(CURDIR)/build/
+kernel_src = linux-kernel
+export build_root = $(CURDIR)/build/
 
-export kernel_build := $(addprefix $(build_base), kernel)
-busybox_build := $(addprefix $(build_base), busybox)
-export BUILD_OUTPUT_BASE=$(CURDIR)/build/samples
+export kernel_build := $(addprefix $(build_root), kernel)
+busybox_build := $(addprefix $(build_root), busybox)
+busybox_src := $(CURDIR)/busybox-1.28.0/
 
 .PHONY: all
 all: kernel rootfs
 	./qemu-kernel.sh
 
-output_dirs = $(addprefix $(build_base), uboot busybox samples kernel)
-$(output_dirs):
-	mkdir -p  $@
-
 $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
+	-mkdir -p $(kernel_build)
 	cp ./config/kernel/vexpress_defconfig $(kernel_build)/.config
-
-$(kernel_build)/.config.old: $(kernel_build) $(kernel_build)/.config
-	make -C $(KERNEL_DIR) oldconfig KBUILD_OUTPUT=$(kernel_build)
+	make -C $(kernel_src) oldconfig KBUILD_OUTPUT=$(kernel_build)
 	make -C $(kernel_build) modules_prepare
 
-$(kernel_build)/vmlinux: $(kernel_build)/.config.old
+$(kernel_build)/vmlinux: $(kernel_src) $(kernel_build)/.config
 	make -C $(kernel_build) uImage LOADADDR=0x80008000 -j2
 	make -C $(kernel_build) dtbs
 
@@ -32,9 +27,11 @@ $(kernel_build)/vmlinux: $(kernel_build)/.config.old
 kernel: $(kernel_build)/vmlinux
 	@echo successfully compile linux kernel
 
-$(busybox_build)/busybox: $(busybox_build) $(CURDIR)/config/busybox/busybox_defconf
+# make oldconfig even only busybox_src changed, I know that
+$(busybox_build)/busybox: $(busybox_src) $(CURDIR)/config/busybox/busybox_defconf
+	-mkdir -p $(busybox_build)
 	cp $(CURDIR)/config/busybox/busybox_defconf $(busybox_build)/.config
-	make -C busybox-1.28.0/ oldconfig KBUILD_OUTPUT=$(busybox_build)
+	make -C  $(busybox_src) oldconfig KBUILD_OUTPUT=$(busybox_build)
 	make -C $(busybox_build)
 	make -C $(busybox_build) install
 
@@ -48,7 +45,7 @@ busybox: $(busybox_build)/busybox
 	@echo successfully compile busybox
 
 .PHONY: samples
-samples:$(kernel_build)/.config.old
+samples:$(kernel_build)/.config
 	make -C samples/compile-module
 	make -C samples/slab
 
