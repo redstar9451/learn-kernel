@@ -4,12 +4,11 @@ learn linux kernel with qemu simulator
 ## how to use
 ```
 ./download.sh
-make busybox
-make vexpress_kernel
-./qemu-kernel.sh
+make all
 ```
 ## qemu options you can speicify:
 * -S hold in the first instruction
+* -s gdb server with port 1234
 
 ## how to debug with gdb
 waiting for composing
