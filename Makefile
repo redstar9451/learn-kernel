@@ -31,7 +31,7 @@ $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
 	make -C $(kernel_build) modules_prepare
 
 $(kernel_build)/vmlinux: $(kernel_src) $(kernel_build)/.config
-	make -C $(kernel_build) uImage LOADADDR=0x80008000 -j2
+	make -C $(kernel_build) uImage LOADADDR=0x80008000 -j$(shell nproc)
 	make -C $(kernel_build) dtbs
 
 .PHONY: kernel
