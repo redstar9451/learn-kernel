@@ -1,7 +1,3 @@
+.*
 linux-kernel/
-build/
 busybox-1.28.0*
-.gitignore
-.cproject
-.project
-.settings/

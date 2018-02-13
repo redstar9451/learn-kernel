@@ -1,7 +1,10 @@
 #!/bin/bash
-KBUILD_OUTPUT_BUSYBOX=$1
-BUSYBOX_SRC=$2
-cd $KBUILD_OUTPUT_BUSYBOX/_install
+build_root=$1
+busybox_src=$2
+rootfs=$3
+
+cd $rootfs
+
 mkdir root home etc dev lib tmp mnt sys proc && mkdir ./usr/lib
 
 mknod ./dev/console c 5 1
@@ -23,5 +26,5 @@ for i in `seq 0 9`; do
 	mknod ./dev/tty$i c 4 $i
 done
 
-cp -ra $BUSYBOX_SRC/examples/bootfloppy/etc/* ./etc/
-find . | cpio --quiet -H newc -o | gzip -9 -n > $KBUILD_OUTPUT_BUSYBOX/rootfs.cpio.gzip
+cp -ra $busybox_src/examples/bootfloppy/etc/* ./etc/
+find . | cpio --quiet -H newc -o | gzip -9 -n > $build_root/rootfs.cpio.gzip

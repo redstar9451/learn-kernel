@@ -2,16 +2,17 @@ export CROSS_COMPILE?=arm-linux-gnueabi-
 export ARCH?=arm
 export KBUILD_VERBOSE=0
 
-kernel_src = linux-kernel
-export build_root = $(CURDIR)/build/
+export build_root = $(CURDIR)/.build
+kernel_src = $(CURDIR)/linux-kernel
+# sameples need kernel_build, do not delete export keyword
+export kernel_build := $(addprefix $(build_root)/, kernel)
 
-export kernel_build := $(addprefix $(build_root), kernel)
-busybox_build := $(addprefix $(build_root), busybox)
+busybox_build := $(addprefix $(build_root)/, busybox)
 busybox_src := $(CURDIR)/busybox-1.28.0/
 
 .PHONY: all
 all: kernel rootfs
-	./qemu-kernel.sh
+	./qemu-kernel.sh $(kernel_build)/arch/arm/boot/zImage $(build_root)/rootfs.cpio.gzip $(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
 
 $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
 	-mkdir -p $(kernel_build)
@@ -28,17 +29,19 @@ kernel: $(kernel_build)/vmlinux
 	@echo successfully compile linux kernel
 
 # make oldconfig even only busybox_src changed, I know that
-$(busybox_build)/busybox: $(busybox_src) $(CURDIR)/config/busybox/busybox_defconf
+$(busybox_build)/busybox: $(CURDIR)/Makefile $(busybox_src) $(CURDIR)/config/busybox/busybox_defconf
 	-mkdir -p $(busybox_build)
 	cp $(CURDIR)/config/busybox/busybox_defconf $(busybox_build)/.config
 	make -C  $(busybox_src) oldconfig KBUILD_OUTPUT=$(busybox_build)
 	make -C $(busybox_build)
-	make -C $(busybox_build) install
-
+	
 .PHONY: rootfs
 rootfs: $(busybox_build)/busybox samples
-	find $(CURDIR)/build/samples -name "*.ko" | xargs cp -v -t $(busybox_build)/_install
-	fakeroot ./make-rootfs.sh $(busybox_build) $(CURDIR)/busybox-1.28.0
+	-rm -rf $(build_root)/rootfs
+	-mkdir -p $(build_root)/rootfs
+	make -C $(busybox_build) install CONFIG_PREFIX=$(build_root)/rootfs
+	find $(build_root)/samples -name "*.ko" | xargs cp -v -t $(build_root)/rootfs
+	fakeroot ./make-rootfs.sh $(build_root) $(busybox_src) $(build_root)/rootfs
 
 .PHONY: busybox
 busybox: $(busybox_build)/busybox
@@ -46,8 +49,7 @@ busybox: $(busybox_build)/busybox
 
 .PHONY: samples
 samples:$(kernel_build)/.config
-	make -C samples/compile-module
-	make -C samples/slab
+	make -C samples
 
 vexpress_boot:
 	make -C u-boot-2016.09 vexpress_ca9x4_defconfig
