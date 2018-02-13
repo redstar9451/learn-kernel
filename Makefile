@@ -1,6 +1,6 @@
-export CROSS_COMPILE?=arm-linux-gnueabi-
-export ARCH?=arm
-export KBUILD_VERBOSE=0
+export CROSS_COMPILE ?= arm-linux-gnueabi-
+export ARCH ?= arm
+export KBUILD_VERBOSE = 0
 
 export build_root = $(CURDIR)/.build
 kernel_src = $(CURDIR)/linux-kernel
@@ -12,7 +12,17 @@ busybox_src := $(CURDIR)/busybox-1.28.0/
 
 .PHONY: all
 all: kernel rootfs
-	./qemu-kernel.sh $(kernel_build)/arch/arm/boot/zImage $(build_root)/rootfs.cpio.gzip $(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+	./qemu-kernel.sh \
+		$(kernel_build)/arch/arm/boot/zImage \
+		$(build_root)/rootfs.cpio.gzip \
+		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+
+run:
+	./qemu-kernel.sh \
+		$(kernel_build)/arch/arm/boot/zImage \
+		$(build_root)/rootfs.cpio.gzip \
+		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+
 
 $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
 	-mkdir -p $(kernel_build)

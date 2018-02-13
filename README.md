@@ -18,30 +18,19 @@ waiting for composing
 * how many ways to identify a rootfs ?
 
 ## how to use tap netdevice in qemu
+first, sudo apt install uml-utilities bridge-utils
 
--net tap,vlan=0,name=tap0
+* install tap netdevice 
+sudo ./setup-net.sh <netdevice> <username>
+for example:
+sudo ./setup-net.sh eth0 $(whoami)
 
-```
-sudo apt install uml-utilities bridge-utils
-sudo brctl addbr br0
-sudo brctl stp br0 on
-sudo brctl addif br0 ens33
-sudo ifconfig ens33 10.1.1.1
-sudo dhclient br0
+* remove tap netdevice
+sudo ./rm-net.sh
 
-sudo tunctl -t tap0 -u redstar
-
-sudo ifconfig tap0 promisc up
-sudo ifconfig tap0 10.1.1.2
-
-
-sudo brctl delif br0 ens33
-sudo brctl delif br0 tap0
-sudo tunctl -d tap0
-sudo ifconfig br0 down
-sudo brctl delbr br0
-
-```
+## Tips
+* only support assign ip via DHCP
+* The IP assignment maybe fail, commonly because DHCP, then you will lose the connection to the host when you login via ssh/telnet
 
 ## Questions
 * 什么情况下会使用到skb链表？处理分片时？
