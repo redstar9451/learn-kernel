@@ -6,3 +6,4 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 
 mknod /dev/kdbg c 250 0
+insmod /lib/modules/kernel-dbg.ko
