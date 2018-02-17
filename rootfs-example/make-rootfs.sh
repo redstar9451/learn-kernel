@@ -1,6 +1,6 @@
 #!/bin/bash
 build_root=$1
-busybox_src=$2
+etc_path=$2
 rootfs=$3
 
 cd $rootfs
@@ -26,5 +26,5 @@ for i in `seq 0 9`; do
 	mknod ./dev/tty$i c 4 $i
 done
 
-cp -ra $busybox_src/examples/bootfloppy/etc/* ./etc/
+cp -ra $etc_path/etc/* ./etc/
 find . | cpio --quiet -H newc -o | gzip -9 -n > $build_root/rootfs.cpio.gzip

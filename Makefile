@@ -51,7 +51,7 @@ rootfs: $(busybox_build)/busybox samples
 	-mkdir -p $(build_root)/rootfs
 	make -C $(busybox_build) install CONFIG_PREFIX=$(build_root)/rootfs
 	find $(build_root)/samples -name "*.ko" | xargs cp -v -t $(build_root)/rootfs
-	fakeroot ./make-rootfs.sh $(build_root) $(busybox_src) $(build_root)/rootfs
+	fakeroot ./rootfs-example/make-rootfs.sh $(build_root) $(CURDIR)/rootfs-example/ $(build_root)/rootfs
 
 .PHONY: busybox
 busybox: $(busybox_build)/busybox
