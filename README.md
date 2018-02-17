@@ -19,12 +19,11 @@ waiting for composing
 ## how to use tap netdevice in qemu
 first, sudo apt install uml-utilities bridge-utils
 
-* install tap netdevice 
+### install tap netdevice 
 sudo ./setup-net.sh <netdevice> <username>
 for example:
 sudo ./setup-net.sh eth0 $(whoami)
-
-* remove tap netdevice
+### remove tap netdevice
 sudo ./rm-net.sh
 
 ## Tips
