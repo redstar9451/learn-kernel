@@ -12,13 +12,13 @@ busybox_src := $(CURDIR)/busybox-1.28.0/
 
 .PHONY: all
 all: kernel rootfs
-	./qemu-kernel.sh \
+	./scripts/qemu-kernel.sh \
 		$(kernel_build)/arch/arm/boot/zImage \
 		$(build_root)/rootfs.cpio.gzip \
 		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
 
 run:
-	./qemu-kernel.sh \
+	./scripts/qemu-kernel.sh \
 		$(kernel_build)/arch/arm/boot/zImage \
 		$(build_root)/rootfs.cpio.gzip \
 		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
