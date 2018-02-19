@@ -22,6 +22,7 @@ $(module)-y += sub2/b.o
 
 ccflags-y := -I$(src)/include
 ccflags-y += -I$(src)/sub1/include
+ccflags-y += -g -DDEBUG
 
 all:
 	-mkdir -p $(output)

@@ -17,7 +17,7 @@ obj-m := $(module).o
 
 $(module)-y := samples-slab.o
 
-#ccflags-y := -I$(src)/include
+ccflags-y := -g -DDEBUG
 
 all:
 	-mkdir -p $(output)
