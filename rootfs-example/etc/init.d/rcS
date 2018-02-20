@@ -7,3 +7,5 @@ mdev -s
 
 mknod /dev/kdbg c 250 0
 insmod /lib/modules/kernel-dbg.ko
+
+echo 7 > /proc/sys/kernel/printk
