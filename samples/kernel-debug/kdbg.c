@@ -1,8 +1,8 @@
 /*
 	This module is used to call functions in kernel, to display variables and set a new value.
 	with the mips-arch board I had tested, neithor cat /proc/kallsyms nor kallsyms_lookup_name
-	can get the address for global vairables in kernel,
-	I don't test on other mips boards, not sure this module can display global variables or set new values.
+	can get the address of global vairables in kernel,
+	I don't test on other mips boards, not sure this module can display global variables or set new values for mips arch.
 */
 #include <linux/module.h>
 #include <linux/init.h>
@@ -95,7 +95,7 @@ int parse_address(char *str, unsigned char **addr)
 		return 0;
 	}
 /* there are 3 methods to lookup address for a symbol, kallsyms_lookup_name searchs more symbols than the other two methods
-	but kallsyms_lookup_name is not exported, EXPORT_SYMBOL(kallsyms_lookup_name) firstly.
+	if kallsyms_lookup_name is not exported, EXPORT_SYMBOL(kallsyms_lookup_name) firstly.
 */
 #if 0
 	*addr = (typeof(*addr))__symbol_get(func_name);
@@ -147,7 +147,7 @@ void debug_call(char *str)
 	err = parse_address(func_name, &addr);
 	if(err)
 	{
-		printk(KERN_ERR "failed to parse the function address named %s\n", func_name);
+		printk(KERN_ERR "failed to parse the function address of %s\n", func_name);
 		return;
 	}
 
