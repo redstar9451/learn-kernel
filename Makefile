@@ -10,6 +10,9 @@ export kernel_build := $(addprefix $(build_root)/, kernel)
 busybox_build := $(addprefix $(build_root)/, busybox)
 busybox_src := $(CURDIR)/busybox-1.28.0/
 
+uboot_build := $(addprefix $(build_root)/, uboot)
+uboot_src := $(CURDIR)/u-boot-2017.03/
+
 .PHONY: all
 all: rootfs
 	./scripts/qemu-kernel.sh \
@@ -22,6 +25,13 @@ run:
 		$(kernel_build)/arch/arm/boot/zImage \
 		$(build_root)/rootfs.cpio.gzip \
 		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+
+boot:
+	-mkdir -p $(uboot_build)
+	make -C $(uboot_src) vexpress_ca9x4_defconfig KBUILD_OUTPUT=$(uboot_build)
+	make -C $(uboot_src) u-boot KBUILD_OUTPUT=$(uboot_build)
+	./scripts/qemu-boot.sh \
+	$(uboot_build)/u-boot \
 
 
 $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
@@ -40,7 +50,7 @@ kernel: $(kernel_build)/.config
 busybox:
 	-mkdir -p $(busybox_build)
 	cp $(CURDIR)/config/busybox/busybox_defconf $(busybox_build)/.config
-	make -C  $(busybox_src) oldconfig KBUILD_OUTPUT=$(busybox_build)
+	make -C  $(busybox_src) menuconfig KBUILD_OUTPUT=$(busybox_build)
 	make -C $(busybox_build)
 	
 .PHONY: rootfs
