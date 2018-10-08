@@ -3,7 +3,8 @@ learn linux kernel with qemu simulator
 
 ## how to use
 ```
-./download.sh
+sudo apt-get install gdb-arm-none-eabi gcc-arm-linux-gnueabi
+./scripts/download.sh
 make all
 ```
 ## qemu options you can speicify:
