@@ -10,6 +10,7 @@ fi
 
 set -x
 $sudo qemu-system-arm -m 512 -M vexpress-a9 \
+    -smp 4 \
     -s -serial stdio \
     -kernel $image \
     -initrd $rootfs \
