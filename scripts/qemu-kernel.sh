@@ -16,4 +16,5 @@ $sudo qemu-system-arm -m 512 -M vexpress-a9 \
     -initrd $rootfs \
     -dtb $dtb \
     -append "loglevel=0 root=/dev/mmcblk0 console=ttyAMA0" \
-    $net
+    $net \
+    $4

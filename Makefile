@@ -24,7 +24,8 @@ run:
 	./scripts/qemu-kernel.sh \
 		$(kernel_build)/arch/arm/boot/zImage \
 		$(build_root)/rootfs.cpio.gzip \
-		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb
+		$(kernel_build)/arch/arm/boot/dts/vexpress-v2p-ca9.dtb \
+		$(arg)
 
 boot:
 	-mkdir -p $(uboot_build)
