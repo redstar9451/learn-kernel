@@ -50,7 +50,7 @@ kernel: $(kernel_build)/.config
 busybox:
 	-mkdir -p $(busybox_build)
 	cp $(CURDIR)/config/busybox/busybox_defconf $(busybox_build)/.config
-	make -C  $(busybox_src) menuconfig KBUILD_OUTPUT=$(busybox_build)
+	make -C  $(busybox_src) oldconfig KBUILD_OUTPUT=$(busybox_build)
 	make -C $(busybox_build)
 	
 .PHONY: rootfs
@@ -67,6 +67,6 @@ samples: kernel
 
 vexpress_boot:
 	make -C u-boot-2016.09 vexpress_ca9x4_defconfig
-#	make -C u-boot-2016.09 menuconfig
+#	make -C u-boot-2016.09 oldconfig
 	make -C u-boot-2016.09
 
