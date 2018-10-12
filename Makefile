@@ -30,7 +30,7 @@ run:
 boot:
 	-mkdir -p $(uboot_build)
 	make -C $(uboot_src) vexpress_ca9x4_defconfig KBUILD_OUTPUT=$(uboot_build)
-	make -C $(uboot_src) u-boot KBUILD_OUTPUT=$(uboot_build)
+	make -C $(uboot_src) all KBUILD_OUTPUT=$(uboot_build)
 	./scripts/qemu-boot.sh \
 	$(uboot_build)/u-boot \
 
