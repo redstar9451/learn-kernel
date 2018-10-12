@@ -11,4 +11,5 @@ $sudo qemu-system-arm -m 64 -M vexpress-a9 \
     -s \
     -serial stdio \
     -kernel $image \
-    $net
+    $net \
+    $2

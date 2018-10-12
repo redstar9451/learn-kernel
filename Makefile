@@ -33,6 +33,7 @@ boot:
 	make -C $(uboot_src) all KBUILD_OUTPUT=$(uboot_build)
 	./scripts/qemu-boot.sh \
 	$(uboot_build)/u-boot \
+	$(arg)
 
 
 $(kernel_build)/.config: $(CURDIR)/config/kernel/vexpress_defconfig
