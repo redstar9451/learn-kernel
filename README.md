@@ -1,5 +1,6 @@
 # Comment linux kernel code
 learn linux kernel with qemu simulator
+编译kernel，制作rootfs，配置qemu参数，主要用来使用gdb学习、分析调试linux kernel
 
 ## how to use
 ```Shell
