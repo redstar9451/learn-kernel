@@ -1,6 +1,6 @@
 # Comment linux kernel code
 learn linux kernel with qemu simulator
-编译kernel，制作rootfs，配置qemu参数，主要用来使用gdb学习、分析调试linux kernel
+编译kernel，制作rootfs，配置qemu参数，主要用来使用gdb学习、分析调试linux kernel、uboot
 
 ## how to use
 ```Shell
@@ -37,4 +37,4 @@ sudo ./rm-net.sh
 * skb-\>truesize 有啥用
 * _____alloc_skb 中，skbuff_head_cache skbuff_fclone_cache 的区别，为fast clone专门设计了一个memory ?
 * skb 是什么的缩写 ? socket buffer
-* what meaning does skb->data_len represent ?
+* what does skb->data_len represent ?
